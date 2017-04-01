@@ -272,7 +272,12 @@ class RegionSelector(QtGui.QMainWindow):
         :return: A (z, x, y) numpy array
         """
         im = Image.open(filename)
-        stack = np.empty((im.n_frames, im.size[1], im.size[0]), dtype=np.uint8)
+        # NOTE: PIL transposes x and y coordinates on image loading, i.e. x coordinates
+        # are increasing with increasing rows not columns
+        if im.mode == 'RGB':
+            stack = np.empty((im.n_frames, im.size[1], im.size[0], 3), dtype=np.uint8)
+        else:
+            stack = np.empty((im.n_frames, im.size[1], im.size[0]), dtype=np.uint8)
         # loop over frames and assign
         for i in range(im.n_frames):
             im.seek(i)
