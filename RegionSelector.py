@@ -6,9 +6,17 @@ from PIL import Image
 
 from utilities import RegionROI
 
+
 class RegionSelector(QtGui.QMainWindow):
+    """
+    User interface logic to select stack regions
+    """
 
     def __init__(self, parent=None):
+        """
+        Creates a new RegionSelector window
+        :param parent: The window's parent
+        """
         # non-ui class members
         self.filename = ""
         self.currentStack = np.array([])
@@ -46,6 +54,10 @@ class RegionSelector(QtGui.QMainWindow):
         self.display_slice()
 
     def guess_stack_type(self):
+        """
+        Uses simple heuristics to determine the type (2D, 3D, grayscale, color) of the current stack
+        :return: Integer identifying the stack type
+        """
         if self.currentStack.size == 0 or self.currentStack.ndim < 2:
             # stack invalid
             return -1
@@ -70,6 +82,9 @@ class RegionSelector(QtGui.QMainWindow):
         return -1
 
     def reset_after_load(self):
+        """
+        Resets user-interface elements and internal counters after a new stack has been loaded
+        """
         self.roi_dict = {}
         self.current_z = 0
         self.current_ROI = None
@@ -81,6 +96,9 @@ class RegionSelector(QtGui.QMainWindow):
 
     @property
     def NSlices(self):
+        """
+        The number of slices in the currently loaded stack 
+        """
         st = self.guess_stack_type()
         if st == -1:
             return 0
@@ -89,6 +107,9 @@ class RegionSelector(QtGui.QMainWindow):
         return self.currentStack.shape[0]
 
     def display_slice(self):
+        """
+        Displays the current slice 
+        """
         st = self.guess_stack_type()
         if st == -1:
             print("No valid stack loaded")
@@ -102,6 +123,11 @@ class RegionSelector(QtGui.QMainWindow):
                 print("Improper slice index for stack")
 
     def create_default_roi(self, n_vert=6):
+        """
+        Create a point list for the default roi when adding a new roi
+        :param n_vert: The initial number of vertices in the ROI
+        :return: A list of (x,y) tuples for the vertices of the roi
+        """
         st = self.guess_stack_type()
         if st == -1:
             return
@@ -123,16 +149,27 @@ class RegionSelector(QtGui.QMainWindow):
         return point_list
 
     def next_roi_color(self):
+        """
+        Updates our ROI pen color cycle
+        :return: The color of the next roi
+        """
         self.last_color += 1
         self.last_color %= 9
         return self.last_color
 
     def next_roi_uid(self):
+        """
+        Updates the unique id of roi's
+        :return: The uid of the next roi
+        """
         self.last_uid += 1
         return self.last_uid
 
     # Signals #
     def load_click(self):
+        """
+        Handles event of clicking the load stack button 
+        """
         diag = QtGui.QFileDialog()
         fname = diag.getOpenFileName(self, "Select stack", "E:/Dropbox/2P_Data", "*.tif")[0]
         if fname is not None and fname != "":
@@ -145,6 +182,9 @@ class RegionSelector(QtGui.QMainWindow):
             print("No file selected")
 
     def addroi_click(self):
+        """
+        Handles event of clicking the add ROI button 
+        """
         name = self.ui.leNewROI.text()
         new_r = RegionROI(self.create_default_roi(), self.next_roi_uid(), name, pen=(self.next_roi_color(), 12))
         if self.current_z in self.roi_dict:
@@ -167,6 +207,10 @@ class RegionSelector(QtGui.QMainWindow):
         self.ui.cbRegions.setCurrentIndex(-1)
 
     def updateRoi(self, roi: RegionROI):
+        """
+        Handles the event whenever an ROI is updated on-screen or programmatically
+        :param roi: The roi which got updated
+        """
         if roi is None:
             # clear our details image and roi indicator
             self.ui.ROIView.getImageItem().setImage(np.zeros((10,10)))
@@ -178,10 +222,18 @@ class RegionSelector(QtGui.QMainWindow):
         self.ui.ROIView.getImageItem().setImage(arr)
 
     def regionNameSelChanged(self, index):
+        """
+        Handles the event whenever a new region is selected in the combo box of previous region names
+        :param index: The new index selection
+        """
         if index >= 0:
             self.ui.leNewROI.setText(self.ui.cbRegions.itemText(index))
 
     def sliderZChanged(self, value):
+        """
+        Handles the event when our z-position slider was adjusted
+        :param value: The new slider position
+        """
         # decommission al ROI's of the current plane
         if self.current_z in self.roi_dict:
             for r in self.roi_dict[self.current_z]:
@@ -202,10 +254,12 @@ class RegionSelector(QtGui.QMainWindow):
     @staticmethod
     def OpenStack(filename):
         """
-        Load image stack from tiff-file
+        Load image stack from tiff file
+        :param filename: The name of the tiff file
+        :return: A (z, x, y) numpy array
         """
         im = Image.open(filename)
-        stack = np.empty((im.n_frames, im.size[1], im.size[0]), dtype=np.float32)
+        stack = np.empty((im.n_frames, im.size[1], im.size[0]), dtype=np.uint8)
         # loop over frames and assign
         for i in range(im.n_frames):
             im.seek(i)

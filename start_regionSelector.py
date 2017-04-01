@@ -1,9 +1,7 @@
 from PyQt5 import QtGui
-import pyqtgraph as pg
 import sys
 
 from RegionSelector import RegionSelector
-
 
 
 if __name__ == "__main__":

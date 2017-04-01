@@ -1,8 +1,19 @@
 import pyqtgraph as pg
 
+
 class RegionROI(pg.PolyLineROI):
+    """
+    Extension of pyqtgraph's PolyLineROI
+    """
 
     def __init__(self, positions, tag_id, region_name, **args):
+        """
+        Create new region ROI
+        :param positions: The vertex positions of the new ROI
+        :param tag_id: A unique ROI id
+        :param region_name: The name associated with this region
+        :param args: Other arguments passed to PolyLineROI
+        """
         self.tag_id = tag_id
         if region_name == "":
             region_name = str(tag_id)
