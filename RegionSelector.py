@@ -17,7 +17,12 @@ class RegionSelector(QtGui.QMainWindow):
         Creates a new RegionSelector window
         :param parent: The window's parent
         """
+        # init of ui
+        QtGui.QWidget.__init__(self, parent)
+        self.ui = Ui_RegionSelector()
+        self.ui.setupUi(self)
         # non-ui class members
+        self.__current_z = 0
         self.filename = ""
         self.currentStack = np.array([])
         self.roi_dict = {}
@@ -25,10 +30,7 @@ class RegionSelector(QtGui.QMainWindow):
         self.current_ROI = None
         self.last_color = 0
         self.last_uid = 0
-        # ui stuff
-        QtGui.QWidget.__init__(self, parent)
-        self.ui = Ui_RegionSelector()
-        self.ui.setupUi(self)
+        # ui stuff settings
         self.ui.lblROIName.setText("")
         # create our view-box and image view inside stackBox
         self.stack_vbox = self.ui.stackBox.addViewBox()
@@ -93,6 +95,7 @@ class RegionSelector(QtGui.QMainWindow):
         self.ui.cbRegions.clear()
         self.ui.sldrZ.setMinimum(0)
         self.ui.sldrZ.setMaximum(self.NSlices - 1)
+        self.ui.sldrZ.setValue(0)
 
     @property
     def NSlices(self):
@@ -105,6 +108,16 @@ class RegionSelector(QtGui.QMainWindow):
         if st < 2:
             return 1
         return self.currentStack.shape[0]
+
+    @property
+    def current_z(self):
+        return self.__current_z
+
+    @current_z.setter
+    def current_z(self, current_z):
+        if current_z >= 0:
+            self.__current_z = current_z
+            self.ui.lbl_z.setText(str(current_z))
 
     def display_slice(self):
         """
