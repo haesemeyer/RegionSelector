@@ -117,14 +117,19 @@ class RegionSelector(QtGui.QMainWindow):
     @current_z.setter
     def current_z(self, current_z):
         if current_z >= 0:
-            # decommission all ROI's of the current plane
-            if self.current_z in self.roi_dict:
-                for r in self.roi_dict[self.current_z]:
-                    self.stack_vbox.removeItem(r)
+            self.decommission_rois()
             self.__current_z = current_z
             # load any existing ROI's of that plane and select the first
             self.select_default_roi()
             self.ui.lbl_z.setText(str(current_z))
+
+    def decommission_rois(self):
+        """
+        Removes all ROIs of the current plane from the viewbox 
+        """
+        if self.current_z in self.roi_dict:
+            for r in self.roi_dict[self.current_z]:
+                self.stack_vbox.removeItem(r)
 
     def display_slice(self):
         """
@@ -226,7 +231,7 @@ class RegionSelector(QtGui.QMainWindow):
         diag = QtGui.QFileDialog()
         fname = diag.getOpenFileName(self, "Select stack", "E:/Dropbox/2P_Data", "*.tif")[0]
         if fname is not None and fname != "":
-            assert isinstance(fname, str)
+            self.decommission_rois()
             self.currentStack = self.OpenStack(fname)
             self.filename = fname
             self.reset_after_load()
