@@ -199,7 +199,8 @@ class RegionSelector(QtGui.QMainWindow):
         Handles event of clicking the add ROI button 
         """
         name = self.ui.leNewROI.text()
-        new_r = RegionROI(self.create_default_roi(), self.next_roi_uid(), name, pen=(self.next_roi_color(), 12))
+        new_r = RegionROI(self.create_default_roi(), self.next_roi_uid(), name, self.current_z,
+                          pen=(self.next_roi_color(), 12))
         if self.current_z in self.roi_dict:
             self.roi_dict[self.current_z].append(new_r)
         else:
