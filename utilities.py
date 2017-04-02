@@ -35,4 +35,39 @@ class RegionROI(pg.PolyLineROI):
         tx = transform.getTranslation()[0]
         ty = transform.getTranslation()[1]
         return [(p[1].x() + tx, p[1].y() + ty) for p in plist]
+
+    def get_container(self):
+        """
+        Copies the non-ui related ROI information to a simple container object for saving
+        :return: A RegionContainer object with all important information
+        """
+        return RegionContainer(self.get_vertex_list(), self.region_name, self.z_index)
+
+    @staticmethod
+    def from_container(container: RegionContainer, tag_id, **args):
+        """
+        Creates a new RegionROI from a container object
+        :param container: The container with the ROI information
+        :param tag_id: A unique ROI id
+        :param args: Other arguments passed to PolyLineROI
+        :return: A new RegionROI object corresponding to the container
+        """
+        return RegionROI(container.positions, tag_id, container.region_name, container.z_index, **args)
 # Class RegionROI
+
+
+class RegionContainer:
+    """
+    Container for saving and loading RegionROI information
+    """
+
+    def __init__(self, positions, region_name: str, z_index: int):
+        """
+        Create a new RegionContainer
+        :param positions: The polygon vertices of the ROI
+        :param region_name: The name of this region
+        :param z_index: The index of the z-plane that this ROI came from
+        """
+        self.positions = positions
+        self.region_name = region_name
+        self.z_index = z_index
