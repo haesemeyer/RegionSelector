@@ -44,6 +44,7 @@ class RegionSelector(QtGui.QMainWindow):
         # connect signals
         self.ui.btnLoad.clicked.connect(self.load_click)
         self.ui.btnAddROI.clicked.connect(self.addroi_click)
+        self.ui.btnDelROI.clicked.connect(self.delroi_click)
         self.ui.cbRegions.currentIndexChanged.connect(self.regionNameSelChanged)
         self.ui.sldrZ.sliderMoved.connect(self.sliderZChanged)
 
@@ -161,6 +162,19 @@ class RegionSelector(QtGui.QMainWindow):
             point_list.append((x, y))
         return point_list
 
+    def select_default_roi(self):
+        """
+        If available makes the first ROI of the current
+         plane the current roi
+        """
+        if self.current_z in self.roi_dict:
+            for i, r in enumerate(self.roi_dict[self.current_z]):
+                self.stack_vbox.addItem(r)
+                if i == 0:
+                    self.updateRoi(r)
+        else:
+            self.updateRoi(None)
+
     def next_roi_color(self):
         """
         Updates our ROI pen color cycle
@@ -177,6 +191,26 @@ class RegionSelector(QtGui.QMainWindow):
         """
         self.last_uid += 1
         return self.last_uid
+
+    def delete_current_roi(self):
+        """
+        Deletes the currently selected ROI 
+        """
+        if self.current_ROI is None:
+            return
+        if self.current_ROI.z_index != self.current_z:
+            raise UserWarning("current_ROI belongs to different z-plane")
+            return
+        if self.current_z not in self.roi_dict:
+            raise UserWarning("current_ROI was not cleared when changing planes")
+            return
+        # delete ROI from roi_dict, set current ROI to None and select remaining default ROI
+        rlist = self.roi_dict[self.current_z]
+        rlist.remove(self.current_ROI)
+        self.stack_vbox.removeItem(self.current_ROI)
+        self.current_ROI = None
+        self.select_default_roi()
+
 
     # Signals #
     def load_click(self):
@@ -220,6 +254,12 @@ class RegionSelector(QtGui.QMainWindow):
         self.ui.leNewROI.setText("")
         self.ui.cbRegions.setCurrentIndex(-1)
 
+    def delroi_click(self):
+        """
+        Handles event of clicking the delete ROI button 
+        """
+        self.delete_current_roi()
+
     def updateRoi(self, roi: RegionROI):
         """
         Handles the event whenever an ROI is updated on-screen or programmatically
@@ -229,6 +269,7 @@ class RegionSelector(QtGui.QMainWindow):
             # clear our details image and roi indicator
             self.ui.ROIView.getImageItem().setImage(np.zeros((10,10)))
             self.ui.lblROIName.setText("")
+            self.current_ROI = roi
             return
         self.current_ROI = roi
         self.ui.lblROIName.setText(roi.region_name)
@@ -248,20 +289,14 @@ class RegionSelector(QtGui.QMainWindow):
         Handles the event when our z-position slider was adjusted
         :param value: The new slider position
         """
-        # decommission al ROI's of the current plane
+        # decommission all ROI's of the current plane
         if self.current_z in self.roi_dict:
             for r in self.roi_dict[self.current_z]:
                 self.stack_vbox.removeItem(r)
         # update z-plane
         self.current_z = value
         # load any existing ROI's of that plane and select the first
-        if self.current_z in self.roi_dict:
-            for i, r in enumerate(self.roi_dict[self.current_z]):
-                self.stack_vbox.addItem(r)
-                if i == 0:
-                    self.updateRoi(r)
-        else:
-            self.updateRoi(None)
+        self.select_default_roi()
         # display the new slice
         self.display_slice()
 
