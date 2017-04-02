@@ -117,7 +117,13 @@ class RegionSelector(QtGui.QMainWindow):
     @current_z.setter
     def current_z(self, current_z):
         if current_z >= 0:
+            # decommission all ROI's of the current plane
+            if self.current_z in self.roi_dict:
+                for r in self.roi_dict[self.current_z]:
+                    self.stack_vbox.removeItem(r)
             self.__current_z = current_z
+            # load any existing ROI's of that plane and select the first
+            self.select_default_roi()
             self.ui.lbl_z.setText(str(current_z))
 
     def display_slice(self):
@@ -289,14 +295,8 @@ class RegionSelector(QtGui.QMainWindow):
         Handles the event when our z-position slider was adjusted
         :param value: The new slider position
         """
-        # decommission all ROI's of the current plane
-        if self.current_z in self.roi_dict:
-            for r in self.roi_dict[self.current_z]:
-                self.stack_vbox.removeItem(r)
         # update z-plane
         self.current_z = value
-        # load any existing ROI's of that plane and select the first
-        self.select_default_roi()
         # display the new slice
         self.display_slice()
 
