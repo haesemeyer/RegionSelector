@@ -45,6 +45,7 @@ class RegionSelector(QtGui.QMainWindow):
         self.ui.btnLoad.clicked.connect(self.load_click)
         self.ui.btnAddROI.clicked.connect(self.addroi_click)
         self.ui.btnDelROI.clicked.connect(self.delroi_click)
+        self.ui.btnCopyROI.clicked.connect(self.copyroi_click)
         self.ui.cbRegions.currentIndexChanged.connect(self.regionNameSelChanged)
         self.ui.sldrZ.sliderMoved.connect(self.sliderZChanged)
 
@@ -222,6 +223,50 @@ class RegionSelector(QtGui.QMainWindow):
         self.current_ROI = None
         self.select_default_roi()
 
+    def add_roi(self, new_r: RegionROI):
+        """
+        Adds a new region to our dictionary as well as to the display
+        :param new_r: The new region to add
+        """
+        if self.current_z in self.roi_dict:
+            self.roi_dict[self.current_z].append(new_r)
+        else:
+            self.roi_dict[self.current_z] = [new_r]
+        # add the ROI to the display
+        self.stack_vbox.addItem(new_r)
+        self.updateRoi(new_r)
+        new_r.sigRegionChanged.connect(self.updateRoi)
+        new_r.sigClicked.connect(self.updateRoi)
+
+    def copy_from_zindex(self, z_index):
+        """
+        Copies all ROI's from the indicated z-plane to the current one
+         but avoids name colisions with ROIs that already exist in the current plane
+        :param z_index: The z-plane from which to copy ROI's
+        """
+        if z_index in self.roi_dict:
+            rlist = self.roi_dict[z_index]
+        else:
+            return
+        if self.current_z in self.roi_dict:
+            names = [r.region_name for r in self.roi_dict[self.current_z]]
+        else:
+            names = []
+        for r in rlist:
+            if r.region_name in names:
+                # do not copy over regions for which there is already a region with the same name
+                # in the current plane
+                continue
+            new_r = RegionROI(r.get_vertex_list(), self.next_roi_uid(), r.region_name, self.current_z, pen=r.pen)
+            self.add_roi(new_r)
+
+    def copy_from_above(self):
+        """
+        Copies all ROI's from the z-plane above the current one to the current one
+        """
+        if self.current_z == 0:
+            return
+        self.copy_from_zindex(self.current_z - 1)
 
     # Signals #
     def load_click(self):
@@ -246,10 +291,7 @@ class RegionSelector(QtGui.QMainWindow):
         name = self.ui.leNewROI.text()
         new_r = RegionROI(self.create_default_roi(), self.next_roi_uid(), name, self.current_z,
                           pen=(self.next_roi_color(), 12))
-        if self.current_z in self.roi_dict:
-            self.roi_dict[self.current_z].append(new_r)
-        else:
-            self.roi_dict[self.current_z] = [new_r]
+        self.add_roi(new_r)
         # add the name of the created region to our list if it doesn exist yet
         found = False
         for i in range(self.ui.cbRegions.count()):
@@ -257,10 +299,6 @@ class RegionSelector(QtGui.QMainWindow):
                 found = True
         if not found:
             self.ui.cbRegions.addItem(new_r.region_name)
-        # add the ROI to the display
-        self.stack_vbox.addItem(new_r)
-        self.updateRoi(new_r)
-        new_r.sigRegionChanged.connect(self.updateRoi)
         # clear the name field and combo box selection
         self.ui.leNewROI.setText("")
         self.ui.cbRegions.setCurrentIndex(-1)
@@ -270,6 +308,12 @@ class RegionSelector(QtGui.QMainWindow):
         Handles event of clicking the delete ROI button 
         """
         self.delete_current_roi()
+
+    def copyroi_click(self):
+        """
+        Handles event of clicking the copy ROI button 
+        """
+        self.copy_from_above()
 
     def updateRoi(self, roi: RegionROI):
         """
