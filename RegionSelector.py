@@ -1,4 +1,5 @@
 from PyQt5 import QtGui
+from PyQt5.QtWidgets import QMessageBox, QFileDialog, QWidget
 from region_selector_ui import Ui_RegionSelector
 import pyqtgraph as pg
 import numpy as np
@@ -18,7 +19,7 @@ class RegionSelector(QtGui.QMainWindow):
         :param parent: The window's parent
         """
         # init of ui
-        QtGui.QWidget.__init__(self, parent)
+        QWidget.__init__(self, parent)
         self.ui = Ui_RegionSelector()
         self.ui.setupUi(self)
         # non-ui class members
@@ -273,7 +274,7 @@ class RegionSelector(QtGui.QMainWindow):
         """
         Handles event of clicking the load stack button 
         """
-        diag = QtGui.QFileDialog()
+        diag = QFileDialog()
         fname = diag.getOpenFileName(self, "Select stack", "E:/Dropbox/2P_Data", "*.tif")[0]
         if fname is not None and fname != "":
             self.decommission_rois()

@@ -1,6 +1,24 @@
 import pyqtgraph as pg
 
 
+class RegionContainer:
+    """
+    Container for saving and loading RegionROI information
+    """
+
+    def __init__(self, positions, region_name: str, z_index: int):
+        """
+        Create a new RegionContainer
+        :param positions: The polygon vertices of the ROI
+        :param region_name: The name of this region
+        :param z_index: The index of the z-plane that this ROI came from
+        """
+        self.positions = positions
+        self.region_name = region_name
+        self.z_index = z_index
+# Class RegionContainer
+
+
 class RegionROI(pg.PolyLineROI):
     """
     Extension of pyqtgraph's PolyLineROI
@@ -54,20 +72,3 @@ class RegionROI(pg.PolyLineROI):
         """
         return RegionROI(container.positions, tag_id, container.region_name, container.z_index, **args)
 # Class RegionROI
-
-
-class RegionContainer:
-    """
-    Container for saving and loading RegionROI information
-    """
-
-    def __init__(self, positions, region_name: str, z_index: int):
-        """
-        Create a new RegionContainer
-        :param positions: The polygon vertices of the ROI
-        :param region_name: The name of this region
-        :param z_index: The index of the z-plane that this ROI came from
-        """
-        self.positions = positions
-        self.region_name = region_name
-        self.z_index = z_index
