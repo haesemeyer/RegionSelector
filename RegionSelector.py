@@ -1,5 +1,6 @@
 from PyQt5 import QtGui
-from PyQt5.QtWidgets import QMessageBox, QFileDialog, QWidget
+from PyQt5.QtWidgets import QMessageBox, QFileDialog, QWidget, QMainWindow
+from PyQt5 import QtCore
 from region_selector_ui import Ui_RegionSelector
 import pyqtgraph as pg
 import numpy as np
@@ -10,7 +11,7 @@ import os
 from utilities import RegionROI, RegionContainer
 
 
-class RegionSelector(QtGui.QMainWindow):
+class RegionSelector(QMainWindow):
     """
     User interface logic to select stack regions
     """
@@ -343,6 +344,32 @@ class RegionSelector(QtGui.QMainWindow):
             f.close()
 
     # Signals #
+    def keyPressEvent(self, a0: QtGui.QKeyEvent):
+        super().keyPressEvent(a0)
+        a0.accept()
+        if a0.key() == QtCore.Qt.Key_Left:
+            if self.current_z > 0:
+                self.ui.sldrZ.setValue(self.current_z - 1)
+                self.sliderZChanged(self.current_z - 1)
+        elif a0.key() == QtCore.Qt.Key_Right:
+            if self.current_z < self.NSlices - 1:
+                self.ui.sldrZ.setValue(self.current_z + 1)
+                self.sliderZChanged(self.current_z + 1)
+        elif a0.key() == QtCore.Qt.Key_Up:
+            if self.current_z >= 5:
+                self.ui.sldrZ.setValue(self.current_z - 5)
+                self.sliderZChanged(self.current_z - 5)
+            else:
+                self.ui.sldrZ.setValue(0)
+                self.sliderZChanged(0)
+        elif a0.key() == QtCore.Qt.Key_Down:
+            if self.current_z < self.NSlices - 6:
+                self.ui.sldrZ.setValue(self.current_z + 5)
+                self.sliderZChanged(self.current_z + 5)
+            else:
+                self.ui.sldrZ.setValue(self.NSlices - 1)
+                self.sliderZChanged(self.NSlices - 1)
+
     def load_click(self):
         """
         Handles event of clicking the load stack button 
