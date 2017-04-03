@@ -36,7 +36,7 @@ class RegionSelector(QtGui.QMainWindow):
         self.last_color = 0
         self.last_uid = 0
         self.last_save = ""
-        self.save_current = False
+        self.save_current = True
         # ui stuff settings
         self.ui.lblROIName.setText("")
         # create our view-box and image view inside stackBox
@@ -109,7 +109,7 @@ class RegionSelector(QtGui.QMainWindow):
         self.ui.sldrZ.setMaximum(self.NSlices - 1)
         self.ui.sldrZ.setValue(0)
         self.last_save = ""
-        self.save_current = False
+        self.save_current = True
 
     @property
     def NSlices(self):
