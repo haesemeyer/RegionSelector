@@ -7,7 +7,7 @@ from PIL import Image
 import pickle
 import os
 
-from utilities import RegionROI
+from utilities import RegionROI, RegionContainer
 
 
 class RegionSelector(QtGui.QMainWindow):
@@ -55,6 +55,7 @@ class RegionSelector(QtGui.QMainWindow):
         self.ui.btnCopyROI.clicked.connect(self.copyroi_click)
         self.ui.btnSave.clicked.connect(self.save_click)
         self.ui.btnSaveAs.clicked.connect(self.save_as_click)
+        self.ui.btnLoadROI.clicked.connect(self.load_roi_click)
         self.ui.cbRegions.currentIndexChanged.connect(self.regionNameSelChanged)
         self.ui.sldrZ.sliderMoved.connect(self.sliderZChanged)
 
@@ -236,6 +237,20 @@ class RegionSelector(QtGui.QMainWindow):
         self.last_uid += 1
         return self.last_uid
 
+    def clear_all(self):
+        """
+        Deletes all ROIs 
+        """
+        # First remove ROI's in the current z-plane from view
+        self.decommission_rois()
+        # Re-init our dictionary
+        self.roi_dict = {}
+        self.current_ROI = None
+        self.select_default_roi()
+        self.last_uid = 0
+        self.save_current = True
+        self.last_save = ""
+
     def delete_current_roi(self):
         """
         Deletes the currently selected ROI 
@@ -258,7 +273,7 @@ class RegionSelector(QtGui.QMainWindow):
 
     def add_roi(self, new_r: RegionROI):
         """
-        Adds a new region to our dictionary as well as to the display
+        Adds a new region in the current plane to our dictionary as well as to the display
         :param new_r: The new region to add
         """
         if self.current_z in self.roi_dict:
@@ -352,6 +367,55 @@ class RegionSelector(QtGui.QMainWindow):
         if fname != "":
             self.save_rois(fname)
             self.last_save = fname
+
+    def load_roi_click(self):
+        """
+        Handles event of clicking the load roi button
+        """
+        if not self.save_current:
+            # warn user that there are unsaved changes
+            dg = QMessageBox()
+            dg.setText("There are unsaved changes that will be lost when loading ROIs. Continue?")
+            dg.setWindowTitle("Unsaved changes")
+            dg.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            dg.setDefaultButton(QMessageBox.Cancel)
+            dg.setIcon(QMessageBox.Warning)
+            ret = dg.exec()
+            if ret == QMessageBox.Cancel:
+                return
+        diag = QFileDialog()
+        fname = diag.getOpenFileName(self, "Load ROIs from file", "", "*.pickle")[0]
+        if fname == "":
+            return
+        f = open(fname, "rb")
+        try:
+            rlist = pickle.load(f)
+            if type(rlist) is not list or len(rlist) == 0 or type(rlist[0]) is not RegionContainer:
+                raise ValueError("Did not recognize contents of pickle file")
+            # remove all current rois
+            self.clear_all()
+            # add the new rois
+            for r in rlist:
+                new_r = RegionROI.from_container(r, self.next_roi_uid(), pen=(self.next_roi_color(), 12))
+                if r.z_index in self.roi_dict:
+                    self.roi_dict[r.z_index].append(new_r)
+                else:
+                    self.roi_dict[r.z_index] = [new_r]
+                # connect signals of the new roi
+                new_r.sigRegionChanged.connect(self.updateRoi)
+                new_r.sigClicked.connect(self.updateRoi)
+                # populate our combo-box
+                found = False
+                for i in range(self.ui.cbRegions.count()):
+                    if self.ui.cbRegions.itemText(i) == new_r.region_name:
+                        found = True
+                if not found:
+                    self.ui.cbRegions.addItem(new_r.region_name)
+            self.last_save = fname
+            self.display_slice()
+            self.select_default_roi()
+        finally:
+            f.close()
 
     def addroi_click(self):
         """
