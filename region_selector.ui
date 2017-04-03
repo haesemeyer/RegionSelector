@@ -89,8 +89,8 @@
    <widget class="QLineEdit" name="leNewROI">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>656</y>
+      <x>319</x>
+      <y>665</y>
       <width>113</width>
       <height>22</height>
      </rect>
@@ -99,8 +99,8 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>636</y>
+      <x>319</x>
+      <y>645</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -112,8 +112,8 @@
    <widget class="QComboBox" name="cbRegions">
     <property name="geometry">
      <rect>
-      <x>450</x>
-      <y>653</y>
+      <x>449</x>
+      <y>662</y>
       <width>151</width>
       <height>26</height>
      </rect>
@@ -294,6 +294,19 @@
       <string>Load ...</string>
      </property>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="btnCopyROInext">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>631</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Copy from next</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

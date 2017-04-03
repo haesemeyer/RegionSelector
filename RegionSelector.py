@@ -52,7 +52,8 @@ class RegionSelector(QtGui.QMainWindow):
         self.ui.btnLoad.clicked.connect(self.load_click)
         self.ui.btnAddROI.clicked.connect(self.addroi_click)
         self.ui.btnDelROI.clicked.connect(self.delroi_click)
-        self.ui.btnCopyROI.clicked.connect(self.copyroi_click)
+        self.ui.btnCopyROI.clicked.connect(self.copy_from_above)
+        self.ui.btnCopyROInext.clicked.connect(self.copy_from_below)
         self.ui.btnSave.clicked.connect(self.save_click)
         self.ui.btnSaveAs.clicked.connect(self.save_as_click)
         self.ui.btnLoadROI.clicked.connect(self.load_roi_click)
@@ -313,9 +314,17 @@ class RegionSelector(QtGui.QMainWindow):
         """
         Copies all ROI's from the z-plane above the current one to the current one
         """
-        if self.current_z == 0:
+        if self.current_z <= 0:
             return
         self.copy_from_zindex(self.current_z - 1)
+
+    def copy_from_below(self):
+        """
+        Copies all ROI's from the z-plane below the current one to the current one 
+        """
+        if self.current_z >= self.NSlices - 1:
+            return
+        self.copy_from_zindex(self.current_z + 1)
 
     def save_rois(self, filename):
         """
@@ -442,11 +451,17 @@ class RegionSelector(QtGui.QMainWindow):
         """
         self.delete_current_roi()
 
-    def copyroi_click(self):
+    def copyroi_above_click(self):
         """
-        Handles event of clicking the copy ROI button 
+        Handles event of clicking the copy ROI prev button 
         """
         self.copy_from_above()
+
+    def copyroi_below_click(self):
+        """
+        Handles event of clicking the copy ROI next button 
+        """
+        self.copy_from_below()
 
     def updateRoi(self, roi: RegionROI):
         """
