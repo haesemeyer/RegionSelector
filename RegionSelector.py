@@ -4,6 +4,8 @@ from region_selector_ui import Ui_RegionSelector
 import pyqtgraph as pg
 import numpy as np
 from PIL import Image
+import pickle
+import os
 
 from utilities import RegionROI
 
@@ -24,6 +26,8 @@ class RegionSelector(QtGui.QMainWindow):
         self.ui.setupUi(self)
         # non-ui class members
         self.__current_z = 0
+        self.__last_save = ""
+        self.__save_current = False
         self.filename = ""
         self.currentStack = np.array([])
         self.roi_dict = {}
@@ -31,6 +35,8 @@ class RegionSelector(QtGui.QMainWindow):
         self.current_ROI = None
         self.last_color = 0
         self.last_uid = 0
+        self.last_save = ""
+        self.save_current = False
         # ui stuff settings
         self.ui.lblROIName.setText("")
         # create our view-box and image view inside stackBox
@@ -47,6 +53,8 @@ class RegionSelector(QtGui.QMainWindow):
         self.ui.btnAddROI.clicked.connect(self.addroi_click)
         self.ui.btnDelROI.clicked.connect(self.delroi_click)
         self.ui.btnCopyROI.clicked.connect(self.copyroi_click)
+        self.ui.btnSave.clicked.connect(self.save_click)
+        self.ui.btnSaveAs.clicked.connect(self.save_as_click)
         self.ui.cbRegions.currentIndexChanged.connect(self.regionNameSelChanged)
         self.ui.sldrZ.sliderMoved.connect(self.sliderZChanged)
 
@@ -99,6 +107,8 @@ class RegionSelector(QtGui.QMainWindow):
         self.ui.sldrZ.setMinimum(0)
         self.ui.sldrZ.setMaximum(self.NSlices - 1)
         self.ui.sldrZ.setValue(0)
+        self.last_save = ""
+        self.save_current = False
 
     @property
     def NSlices(self):
@@ -124,6 +134,27 @@ class RegionSelector(QtGui.QMainWindow):
             # load any existing ROI's of that plane and select the first
             self.select_default_roi()
             self.ui.lbl_z.setText(str(current_z))
+
+    @property
+    def last_save(self):
+        return self.__last_save
+
+    @last_save.setter
+    def last_save(self, fname):
+        self.__last_save = fname
+        self.ui.lblSaveName.setText(fname)
+
+    @property
+    def save_current(self):
+        return self.__save_current
+
+    @save_current.setter
+    def save_current(self, value):
+        self.__save_current = value
+        if value:
+            self.ui.lblIsSaved.setText("Changes saved")
+        else:
+            self.ui.lblIsSaved.setText("Unsaved changes")
 
     def decommission_rois(self):
         """
@@ -223,6 +254,7 @@ class RegionSelector(QtGui.QMainWindow):
         self.stack_vbox.removeItem(self.current_ROI)
         self.current_ROI = None
         self.select_default_roi()
+        self.save_current = False
 
     def add_roi(self, new_r: RegionROI):
         """
@@ -238,6 +270,7 @@ class RegionSelector(QtGui.QMainWindow):
         self.updateRoi(new_r)
         new_r.sigRegionChanged.connect(self.updateRoi)
         new_r.sigClicked.connect(self.updateRoi)
+        self.save_current = False
 
     def copy_from_zindex(self, z_index):
         """
@@ -269,6 +302,22 @@ class RegionSelector(QtGui.QMainWindow):
             return
         self.copy_from_zindex(self.current_z - 1)
 
+    def save_rois(self, filename):
+        """
+        Pickle all created roi's to file
+        :param filename: The name of the file
+        """
+        f = open(filename, 'wb')
+        r_list = []
+        try:
+            for k in self.roi_dict:
+                r_list += [r.get_container() for r in self.roi_dict[k]]
+            pickle.dump(r_list, f)
+            print(len(pickle.dumps(r_list)))
+            self.save_current = True
+        finally:
+            f.close()
+
     # Signals #
     def load_click(self):
         """
@@ -284,6 +333,25 @@ class RegionSelector(QtGui.QMainWindow):
             self.display_slice()
         else:
             print("No file selected")
+
+    def save_click(self):
+        """
+        Handles event of clicking the save roi button 
+        """
+        if self.last_save == "":
+            self.save_as_click()
+        else:
+            self.save_rois(self.last_save)
+
+    def save_as_click(self):
+        """
+        Handles event of clicking the save_as roi button 
+        """
+        diag = QFileDialog()
+        fname = diag.getSaveFileName(self, "Save ROIs to file", "", "*.pickle")[0]
+        if fname != "":
+            self.save_rois(fname)
+            self.last_save = os.path.basename(fname)
 
     def addroi_click(self):
         """
