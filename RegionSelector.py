@@ -142,7 +142,7 @@ class RegionSelector(QtGui.QMainWindow):
     @last_save.setter
     def last_save(self, fname):
         self.__last_save = fname
-        self.ui.lblSaveName.setText(fname)
+        self.ui.lblSaveName.setText(os.path.basename(fname))
 
     @property
     def save_current(self):
@@ -351,7 +351,7 @@ class RegionSelector(QtGui.QMainWindow):
         fname = diag.getSaveFileName(self, "Save ROIs to file", "", "*.pickle")[0]
         if fname != "":
             self.save_rois(fname)
-            self.last_save = os.path.basename(fname)
+            self.last_save = fname
 
     def addroi_click(self):
         """
