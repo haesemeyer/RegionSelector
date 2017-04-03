@@ -275,7 +275,7 @@ class RegionSelector(QtGui.QMainWindow):
         Handles event of clicking the load stack button 
         """
         diag = QFileDialog()
-        fname = diag.getOpenFileName(self, "Select stack", "E:/Dropbox/2P_Data", "*.tif")[0]
+        fname = diag.getOpenFileName(self, "Select stack", "", "*.tif")[0]
         if fname is not None and fname != "":
             self.decommission_rois()
             self.currentStack = self.OpenStack(fname)
