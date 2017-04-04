@@ -222,6 +222,23 @@ class RegionSelector(QMainWindow):
         else:
             self.updateRoi(None)
 
+    def cycle_roi(self):
+        """
+        Cycles through the ROI list of the current z-plane selecting each ROI in turn 
+        """
+        if self.current_ROI is None:
+            self.select_default_roi()
+            return
+        r_list = self.roi_dict[self.current_z]
+        try:
+            ix = r_list.index(self.current_ROI)
+        except ValueError:
+            # this means that self.current_ROI is stale. We really should never end up here
+            self.select_default_roi()
+            return
+        # select the next ROI in this plane's list, cycling around
+        self.updateRoi(r_list[(ix + 1) % len(r_list)])
+
     def next_roi_color(self):
         """
         Updates our ROI pen color cycle
@@ -369,6 +386,8 @@ class RegionSelector(QMainWindow):
             else:
                 self.ui.sldrZ.setValue(self.NSlices - 1)
                 self.sliderZChanged(self.NSlices - 1)
+        elif a0.key() == QtCore.Qt.Key_Space:
+            self.cycle_roi()
 
     def load_click(self):
         """
