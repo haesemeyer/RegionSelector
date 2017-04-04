@@ -99,7 +99,7 @@ class Ui_RegionSelector(object):
 
     def retranslateUi(self, RegionSelector):
         _translate = QtCore.QCoreApplication.translate
-        RegionSelector.setWindowTitle(_translate("RegionSelector", "2P Stack analyzer"))
+        RegionSelector.setWindowTitle(_translate("RegionSelector", "Brain Segmenter"))
         self.btnLoad.setText(_translate("RegionSelector", "Load Stack"))
         self.btnAddROI.setText(_translate("RegionSelector", "Add ROI"))
         self.label.setText(_translate("RegionSelector", "Current ROI name:"))

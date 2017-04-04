@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>2P Stack analyzer</string>
+   <string>Brain Segmenter</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="GraphicsLayoutWidget" name="stackBox">
