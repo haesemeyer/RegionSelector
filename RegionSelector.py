@@ -134,6 +134,7 @@ class RegionSelector(QMainWindow):
         if current_z >= 0:
             self.decommission_rois()
             self.__current_z = current_z
+            self.display_slice()
             # load any existing ROI's of that plane and select the first
             self.select_default_roi()
             self.ui.lbl_z.setText(str(current_z))
@@ -539,8 +540,6 @@ class RegionSelector(QMainWindow):
         """
         # update z-plane
         self.current_z = value
-        # display the new slice
-        self.display_slice()
 
     @staticmethod
     def OpenStack(filename):
