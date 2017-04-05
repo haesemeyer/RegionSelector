@@ -477,6 +477,9 @@ class RegionSelector(QMainWindow):
             self.select_default_roi()
         finally:
             f.close()
+        # clear the name field and combo box selection
+        self.ui.leNewROI.setText("")
+        self.ui.cbRegions.setCurrentIndex(-1)
 
     def addroi_click(self):
         """
