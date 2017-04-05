@@ -361,6 +361,17 @@ class RegionSelector(QMainWindow):
         finally:
             f.close()
 
+    def add_name_to_combo(self, name):
+        """
+        Adds a new name to the combo box iff that name isn't already existing
+        """
+        found = False
+        for i in range(self.ui.cbRegions.count()):
+            if self.ui.cbRegions.itemText(i) == name:
+                found = True
+        if not found:
+            self.ui.cbRegions.addItem(name)
+
     # Signals #
     def keyPressEvent(self, a0: QtGui.QKeyEvent):
         a0.accept()
@@ -460,12 +471,7 @@ class RegionSelector(QMainWindow):
                 new_r.sigRegionChanged.connect(self.updateRoi)
                 new_r.sigClicked.connect(self.updateRoi)
                 # populate our combo-box
-                found = False
-                for i in range(self.ui.cbRegions.count()):
-                    if self.ui.cbRegions.itemText(i) == new_r.region_name:
-                        found = True
-                if not found:
-                    self.ui.cbRegions.addItem(new_r.region_name)
+                self.add_name_to_combo(new_r.region_name)
             self.last_save = fname
             self.display_slice()
             self.select_default_roi()
@@ -481,12 +487,7 @@ class RegionSelector(QMainWindow):
                           pen=(self.next_roi_color(), 12))
         self.add_roi(new_r)
         # add the name of the created region to our list if it doesn exist yet
-        found = False
-        for i in range(self.ui.cbRegions.count()):
-            if self.ui.cbRegions.itemText(i) == new_r.region_name:
-                found = True
-        if not found:
-            self.ui.cbRegions.addItem(new_r.region_name)
+        self.add_name_to_combo(new_r.region_name)
         # clear the name field and combo box selection
         self.ui.leNewROI.setText("")
         self.ui.cbRegions.setCurrentIndex(-1)
