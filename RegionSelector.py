@@ -362,7 +362,6 @@ class RegionSelector(QMainWindow):
 
     # Signals #
     def keyPressEvent(self, a0: QtGui.QKeyEvent):
-        super().keyPressEvent(a0)
         a0.accept()
         if a0.key() == QtCore.Qt.Key_Left:
             if self.current_z > 0:
