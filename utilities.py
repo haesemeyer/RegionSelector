@@ -1,4 +1,5 @@
 import pyqtgraph as pg
+import matplotlib.path as mpath
 
 
 class RegionContainer:
@@ -16,6 +17,16 @@ class RegionContainer:
         self.positions = positions
         self.region_name = region_name
         self.z_index = z_index
+
+    def point_in_region(self, point):
+        """
+        Tests whether a point is within the region or outside
+        :param point: The test point
+        :return: True if the point is within the region False if on a boundary or outside
+        """
+        # even when setting closed to True we still need to supply the first point twice
+        poly_path = mpath.Path(self.positions + [self.positions[0]], closed=True)
+        return poly_path.contains_point(point)
 # Class RegionContainer
 
 
