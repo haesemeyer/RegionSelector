@@ -60,6 +60,7 @@ class RegionSelector(QMainWindow):
         self.ui.btnLoadROI.clicked.connect(self.load_roi_click)
         self.ui.cbRegions.currentIndexChanged.connect(self.regionNameSelChanged)
         self.ui.sldrZ.sliderMoved.connect(self.sliderZChanged)
+        self.ui.ROIView.keyPressEvent = self.keyPressEvent
 
         # for easy testing, create and display test-image stack
         test_image = np.abs(np.random.randn(10, 100, 100, 3)*50).astype(np.uint8)
