@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_RegionSelector(object):
     def setupUi(self, RegionSelector):
         RegionSelector.setObjectName("RegionSelector")
-        RegionSelector.resize(1286, 738)
+        RegionSelector.resize(1105, 738)
         self.centralwidget = QtWidgets.QWidget(RegionSelector)
         self.centralwidget.setObjectName("centralwidget")
         self.stackBox = GraphicsLayoutWidget(self.centralwidget)
@@ -88,9 +88,21 @@ class Ui_RegionSelector(object):
         self.btnCopyROInext = QtWidgets.QPushButton(self.centralwidget)
         self.btnCopyROInext.setGeometry(QtCore.QRect(470, 631, 121, 31))
         self.btnCopyROInext.setObjectName("btnCopyROInext")
+        self.groupBox_2 = QtWidgets.QGroupBox(self.centralwidget)
+        self.groupBox_2.setGeometry(QtCore.QRect(684, 540, 402, 80))
+        self.groupBox_2.setObjectName("groupBox_2")
+        self.label_3 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_3.setGeometry(QtCore.QRect(10, 20, 383, 16))
+        self.label_3.setObjectName("label_3")
+        self.label_4 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_4.setGeometry(QtCore.QRect(10, 40, 384, 16))
+        self.label_4.setObjectName("label_4")
+        self.label_5 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_5.setGeometry(QtCore.QRect(10, 60, 384, 16))
+        self.label_5.setObjectName("label_5")
         RegionSelector.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(RegionSelector)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1286, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1105, 22))
         self.menubar.setObjectName("menubar")
         RegionSelector.setMenuBar(self.menubar)
 
@@ -116,5 +128,9 @@ class Ui_RegionSelector(object):
         self.btnSaveAs.setText(_translate("RegionSelector", "Save as ..."))
         self.btnLoadROI.setText(_translate("RegionSelector", "Load ..."))
         self.btnCopyROInext.setText(_translate("RegionSelector", "Copy from next"))
+        self.groupBox_2.setTitle(_translate("RegionSelector", "Navigation"))
+        self.label_3.setText(_translate("RegionSelector", "Arrow left/right: Previous/Next slice  "))
+        self.label_4.setText(_translate("RegionSelector", "Arrow up/down: Go back/Advance 5 slices  "))
+        self.label_5.setText(_translate("RegionSelector", "Space bar: Cycle regions in current slice  "))
 
 from pyqtgraph import GraphicsLayoutWidget, ImageView
