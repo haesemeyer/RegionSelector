@@ -5,8 +5,8 @@ from region_selector_ui import Ui_RegionSelector
 import pyqtgraph as pg
 import numpy as np
 from PIL import Image
-import pickle
 import os
+import h5py
 
 from utilities import RegionROI, RegionContainer
 
@@ -348,16 +348,15 @@ class RegionSelector(QMainWindow):
 
     def save_rois(self, filename):
         """
-        Pickle all created roi's to file
+        Save all created roi's to file
         :param filename: The name of the file
         """
-        f = open(filename, 'wb')
+        f = h5py.File(filename, "w")
         r_list = []
         try:
             for k in self.roi_dict:
                 r_list += [r.get_container() for r in self.roi_dict[k]]
-            pickle.dump(r_list, f)
-            print(len(pickle.dumps(r_list)))
+            RegionContainer.save_container_list(r_list, f)
             self.save_current = True
         finally:
             f.close()
@@ -430,7 +429,7 @@ class RegionSelector(QMainWindow):
         Handles event of clicking the save_as roi button 
         """
         diag = QFileDialog()
-        fname = diag.getSaveFileName(self, "Save ROIs to file", "", "*.pickle")[0]
+        fname = diag.getSaveFileName(self, "Save ROIs to file", "", "*.hdf5")[0]
         if fname != "":
             self.save_rois(fname)
             self.last_save = fname
@@ -451,14 +450,14 @@ class RegionSelector(QMainWindow):
             if ret == QMessageBox.Cancel:
                 return
         diag = QFileDialog()
-        fname = diag.getOpenFileName(self, "Load ROIs from file", "", "*.pickle")[0]
+        fname = diag.getOpenFileName(self, "Load ROIs from file", "", "*.hdf5")[0]
         if fname == "":
             return
-        f = open(fname, "rb")
+        f = h5py.File(fname, "r")
         try:
-            rlist = pickle.load(f)
+            rlist = RegionContainer.load_container_list(f)
             if type(rlist) is not list or len(rlist) == 0 or type(rlist[0]) is not RegionContainer:
-                raise ValueError("Did not recognize contents of pickle file")
+                raise ValueError("Did not recognize contents of segmentation file {0}".format(f.filename))
             # remove all current rois
             self.clear_all()
             # add the new rois
@@ -521,7 +520,7 @@ class RegionSelector(QMainWindow):
         """
         if roi is None:
             # clear our details image and roi indicator
-            self.ui.ROIView.getImageItem().setImage(np.zeros((10,10)))
+            self.ui.ROIView.getImageItem().setImage(np.zeros((10, 10)))
             self.ui.lblROIName.setText("")
             self.current_ROI = roi
             return
