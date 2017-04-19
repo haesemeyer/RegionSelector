@@ -50,7 +50,7 @@
    <widget class="QPushButton" name="btnAddROI">
     <property name="geometry">
      <rect>
-      <x>314</x>
+      <x>355</x>
       <y>625</y>
       <width>91</width>
       <height>31</height>
@@ -89,7 +89,7 @@
    <widget class="QLineEdit" name="leNewROI">
     <property name="geometry">
      <rect>
-      <x>319</x>
+      <x>360</x>
       <y>678</y>
       <width>113</width>
       <height>22</height>
@@ -99,7 +99,7 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>319</x>
+      <x>360</x>
       <y>658</y>
       <width>101</width>
       <height>16</height>
@@ -112,7 +112,7 @@
    <widget class="QComboBox" name="cbRegions">
     <property name="geometry">
      <rect>
-      <x>449</x>
+      <x>490</x>
       <y>675</y>
       <width>151</width>
       <height>26</height>
@@ -207,7 +207,7 @@
    <widget class="QPushButton" name="btnCopyROI">
     <property name="geometry">
      <rect>
-      <x>470</x>
+      <x>511</x>
       <y>608</y>
       <width>121</width>
       <height>31</height>
@@ -298,7 +298,7 @@
    <widget class="QPushButton" name="btnCopyROInext">
     <property name="geometry">
      <rect>
-      <x>469</x>
+      <x>510</x>
       <y>638</y>
       <width>121</width>
       <height>31</height>
@@ -363,8 +363,8 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>19</x>
-      <y>600</y>
+      <x>190</x>
+      <y>591</y>
       <width>68</width>
       <height>16</height>
      </rect>
@@ -376,8 +376,8 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>153</x>
-      <y>601</y>
+      <x>260</x>
+      <y>591</y>
       <width>73</width>
       <height>16</height>
      </rect>
@@ -386,36 +386,42 @@
      <string>Maximum</string>
     </property>
    </widget>
-   <widget class="QDial" name="dialMax">
+   <widget class="QSlider" name="dialMin">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>585</y>
-      <width>41</width>
-      <height>43</height>
+      <x>200</x>
+      <y>610</y>
+      <width>22</width>
+      <height>90</height>
      </rect>
     </property>
     <property name="maximum">
      <number>255</number>
     </property>
-    <property name="value">
-     <number>255</number>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QDial" name="dialMin">
+   <widget class="QSlider" name="dialMax">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>585</y>
-      <width>41</width>
-      <height>43</height>
+      <x>270</x>
+      <y>610</y>
+      <width>22</width>
+      <height>90</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
     </property>
     <property name="maximum">
      <number>255</number>
     </property>
     <property name="value">
-     <number>0</number>
+     <number>255</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
     </property>
    </widget>
   </widget>

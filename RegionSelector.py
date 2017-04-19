@@ -111,6 +111,8 @@ class RegionSelector(QMainWindow):
         self.current_ROI = None
         self.last_color = 0
         self.last_uid = 0
+        self.ui.dialMin.setValue(0)
+        self.ui.dialMax.setValue(255)
         self.im_max_val = 255
         self.im_min_val = 0
         self.ui.cbRegions.clear()
