@@ -38,6 +38,8 @@ class RegionSelector(QMainWindow):
         self.last_uid = 0
         self.last_save = ""
         self.save_current = True
+        self.im_min_val = 0
+        self.im_max_val = 255
         # ui stuff settings
         self.ui.lblROIName.setText("")
         # create our view-box and image view inside stackBox
@@ -61,6 +63,8 @@ class RegionSelector(QMainWindow):
         self.ui.cbRegions.currentIndexChanged.connect(self.regionNameSelChanged)
         self.ui.sldrZ.sliderMoved.connect(self.sliderZChanged)
         self.ui.ROIView.keyPressEvent = self.keyPressEvent
+        self.ui.dialMin.sliderMoved.connect(self.min_dialChanged)
+        self.ui.dialMax.sliderMoved.connect(self.max_dialChanged)
 
         # for easy testing, create and display test-image stack
         test_image = np.abs(np.random.randn(10, 100, 100, 3)*50).astype(np.uint8)
@@ -107,6 +111,8 @@ class RegionSelector(QMainWindow):
         self.current_ROI = None
         self.last_color = 0
         self.last_uid = 0
+        self.im_max_val = 255
+        self.im_min_val = 0
         self.ui.cbRegions.clear()
         self.ui.sldrZ.setMinimum(0)
         self.ui.sldrZ.setMaximum(self.NSlices - 1)
@@ -169,6 +175,18 @@ class RegionSelector(QMainWindow):
             for r in self.roi_dict[self.current_z]:
                 self.stack_vbox.removeItem(r)
 
+    def scale_image(self, im: np.ndarray):
+        """
+        Scales intensity values in an image based on the min/max settings
+        :param im: The image to scale
+        :return: The scaled image
+        """
+        im_scale = im.astype(np.float32) - self.im_min_val
+        im_scale[im_scale < 0] = 0
+        im_scale = im_scale / self.im_max_val * 255
+        im_scale[im_scale > 255] = 255
+        return im_scale.astype(np.uint8)
+
     def display_slice(self):
         """
         Displays the current slice 
@@ -178,10 +196,10 @@ class RegionSelector(QMainWindow):
             print("No valid stack loaded")
             return
         if st == 0 or st == 1:
-            self.stack_image.setImage(self.currentStack)
+            self.stack_image.setImage(self.scale_image(self.currentStack))
         elif st == 2 or st == 3:
             if self.NSlices > self.current_z:
-                self.stack_image.setImage(self.currentStack[self.current_z])
+                self.stack_image.setImage(self.scale_image(self.currentStack[self.current_z]))
             else:
                 print("Improper slice index for stack")
 
@@ -544,6 +562,14 @@ class RegionSelector(QMainWindow):
         """
         # update z-plane
         self.current_z = value
+
+    def min_dialChanged(self, value):
+        self.im_min_val = value
+        self.display_slice()
+
+    def max_dialChanged(self, value):
+        self.im_max_val = value
+        self.display_slice()
 
     @staticmethod
     def OpenStack(filename):
