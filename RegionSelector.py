@@ -51,15 +51,17 @@ class RegionSelector(QMainWindow):
         # hide menu and roi button on image views
         self.ui.ROIView.ui.roiBtn.hide()
         self.ui.ROIView.ui.menuBtn.hide()
+        # to avoid MAC OSX menu snafu make non-native
+        self.ui.menubar.setNativeMenuBar(False)
         # connect signals
-        self.ui.btnLoad.clicked.connect(self.load_click)
+        self.ui.actionOpen_Stack.triggered.connect(self.load_click)
         self.ui.btnAddROI.clicked.connect(self.addroi_click)
         self.ui.btnDelROI.clicked.connect(self.delroi_click)
         self.ui.btnCopyROI.clicked.connect(self.copy_from_above)
         self.ui.btnCopyROInext.clicked.connect(self.copy_from_below)
-        self.ui.btnSave.clicked.connect(self.save_click)
-        self.ui.btnSaveAs.clicked.connect(self.save_as_click)
-        self.ui.btnLoadROI.clicked.connect(self.load_roi_click)
+        self.ui.actionLoad_regions.triggered.connect(self.load_roi_click)
+        self.ui.actionSave_regions.triggered.connect(self.save_click)
+        self.ui.actionSave_regions_as.triggered.connect(self.save_as_click)
         self.ui.cbRegions.currentIndexChanged.connect(self.regionNameSelChanged)
         self.ui.sldrZ.sliderMoved.connect(self.sliderZChanged)
         self.ui.ROIView.keyPressEvent = self.keyPressEvent
