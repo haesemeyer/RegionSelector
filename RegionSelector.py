@@ -67,6 +67,7 @@ class RegionSelector(QMainWindow):
         self.ui.ROIView.keyPressEvent = self.keyPressEvent
         self.ui.dialMin.sliderMoved.connect(self.min_dialChanged)
         self.ui.dialMax.sliderMoved.connect(self.max_dialChanged)
+        self.ui.btnRenROI.clicked.connect(self.renroi_click)
 
         # for easy testing, create and display test-image stack
         test_image = np.abs(np.random.randn(10, 100, 100, 3)*50).astype(np.uint8)
@@ -314,6 +315,25 @@ class RegionSelector(QMainWindow):
         self.select_default_roi()
         self.save_current = False
 
+    def rename_current_roi(self, new_name):
+        """
+        Renames the currently selected ROI 
+        """
+        if self.current_ROI is None:
+            return
+        if self.current_ROI.z_index != self.current_z:
+            raise UserWarning("current_ROI belongs to different z-plane")
+        if self.current_z not in self.roi_dict:
+            raise UserWarning("current_ROI was not cleared when changing planes")
+        self.current_ROI.region_name = new_name
+        self.update_roi(self.current_ROI)
+        self.save_current = False
+        # add the name of the created region to our list if it doesn exist yet
+        self.add_name_to_combo(new_name)
+        # clear the name field and combo box selection
+        self.ui.leNewROI.setText("")
+        self.ui.cbRegions.setCurrentIndex(-1)
+
     def add_roi(self, new_r: RegionROI):
         """
         Adds a new region in the current plane to our dictionary as well as to the display
@@ -516,6 +536,15 @@ class RegionSelector(QMainWindow):
         # clear the name field and combo box selection
         self.ui.leNewROI.setText("")
         self.ui.cbRegions.setCurrentIndex(-1)
+
+    def renroi_click(self):
+        """
+        Handles event of clicking the rename roi button 
+        """
+        name = self.ui.leNewROI.text()
+        if name == "":
+            return
+        self.rename_current_roi(name)
 
     def delroi_click(self):
         """
