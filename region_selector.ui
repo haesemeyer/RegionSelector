@@ -74,7 +74,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>14</pointsize>
+      <pointsize>11</pointsize>
      </font>
     </property>
     <property name="title">
@@ -91,7 +91,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>12</pointsize>
+       <pointsize>11</pointsize>
        <italic>true</italic>
       </font>
      </property>
@@ -110,7 +110,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>12</pointsize>
+       <pointsize>11</pointsize>
        <italic>true</italic>
       </font>
      </property>
@@ -129,7 +129,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>12</pointsize>
+       <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
@@ -147,7 +147,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>12</pointsize>
+       <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
@@ -254,7 +254,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>12</pointsize>
+       <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
@@ -323,6 +323,11 @@
       <height>80</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>Navigation</string>
     </property>
@@ -370,10 +375,15 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>636</y>
+      <y>640</y>
       <width>73</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Maximum</string>
@@ -410,6 +420,11 @@
       <height>16</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>Minimum</string>
     </property>
@@ -417,8 +432,8 @@
    <widget class="QSlider" name="dialMin">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>600</y>
+      <x>29</x>
+      <y>605</y>
       <width>122</width>
       <height>28</height>
      </rect>
