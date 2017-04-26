@@ -33,9 +33,9 @@
    <widget class="ImageView" name="ROIView">
     <property name="geometry">
      <rect>
-      <x>770</x>
+      <x>698</x>
       <y>10</y>
-      <width>300</width>
+      <width>372</width>
       <height>300</height>
      </rect>
     </property>
@@ -451,17 +451,6 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <zorder>stackBox</zorder>
-   <zorder>ROIView</zorder>
-   <zorder>sldrZ</zorder>
-   <zorder>lbl_z</zorder>
-   <zorder>groupBox</zorder>
-   <zorder>groupBox_2</zorder>
-   <zorder>label_7</zorder>
-   <zorder>dialMax</zorder>
-   <zorder>label_6</zorder>
-   <zorder>dialMin</zorder>
-   <zorder>label_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
