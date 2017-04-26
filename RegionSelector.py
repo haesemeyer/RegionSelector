@@ -57,6 +57,7 @@ class RegionSelector(QMainWindow):
         self.ui.actionLoad_regions.setShortcut("Ctrl+L")
         self.ui.actionOpen_Stack.setShortcut("Ctrl+O")
         self.ui.actionSave_regions.setShortcut("Ctrl+S")
+        self.ui.actionSave_regions_as.setShortcut("Shift+Ctrl+S")
         # connect signals
         self.ui.actionOpen_Stack.triggered.connect(self.load_click)
         self.ui.btnAddROI.clicked.connect(self.addroi_click)
