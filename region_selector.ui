@@ -10,6 +10,12 @@
     <height>707</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>14</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Brain Segmenter</string>
   </property>
@@ -173,7 +179,7 @@
        <x>6</x>
        <y>143</y>
        <width>91</width>
-       <height>31</height>
+       <height>25</height>
       </rect>
      </property>
      <property name="palette">
@@ -280,7 +286,7 @@
        <x>5</x>
        <y>77</y>
        <width>91</width>
-       <height>31</height>
+       <height>25</height>
       </rect>
      </property>
      <property name="text">
@@ -290,10 +296,10 @@
     <widget class="QPushButton" name="btnCopyROI">
      <property name="geometry">
       <rect>
-       <x>6</x>
-       <y>107</y>
+       <x>5</x>
+       <y>112</y>
        <width>125</width>
-       <height>31</height>
+       <height>25</height>
       </rect>
      </property>
      <property name="text">
@@ -303,10 +309,10 @@
     <widget class="QPushButton" name="btnCopyROInext">
      <property name="geometry">
       <rect>
-       <x>140</x>
-       <y>108</y>
+       <x>135</x>
+       <y>112</y>
        <width>121</width>
-       <height>31</height>
+       <height>25</height>
       </rect>
      </property>
      <property name="text">
