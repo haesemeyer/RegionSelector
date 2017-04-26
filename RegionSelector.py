@@ -242,9 +242,9 @@ class RegionSelector(QMainWindow):
             for i, r in enumerate(self.roi_dict[self.current_z]):
                 self.stack_vbox.addItem(r)
                 if i == 0:
-                    self.updateRoi(r)
+                    self.update_roi(r)
         else:
-            self.updateRoi(None)
+            self.update_roi(None)
 
     def cycle_roi(self):
         """
@@ -261,7 +261,7 @@ class RegionSelector(QMainWindow):
             self.select_default_roi()
             return
         # select the next ROI in this plane's list, cycling around
-        self.updateRoi(r_list[(ix + 1) % len(r_list)])
+        self.update_roi(r_list[(ix + 1) % len(r_list)])
 
     def next_roi_color(self):
         """
@@ -325,9 +325,9 @@ class RegionSelector(QMainWindow):
             self.roi_dict[self.current_z] = [new_r]
         # add the ROI to the display
         self.stack_vbox.addItem(new_r)
-        self.updateRoi(new_r)
-        new_r.sigRegionChanged.connect(self.updateRoi)
-        new_r.sigClicked.connect(self.updateRoi)
+        self.update_roi(new_r)
+        new_r.sigRegionChanged.connect(self.roi_updated)
+        new_r.sigClicked.connect(self.roi_updated)
         self.save_current = False
 
     def copy_from_zindex(self, z_index):
@@ -490,8 +490,8 @@ class RegionSelector(QMainWindow):
                 else:
                     self.roi_dict[r.z_index] = [new_r]
                 # connect signals of the new roi
-                new_r.sigRegionChanged.connect(self.updateRoi)
-                new_r.sigClicked.connect(self.updateRoi)
+                new_r.sigRegionChanged.connect(self.roi_updated)
+                new_r.sigClicked.connect(self.roi_updated)
                 # populate our combo-box
                 self.add_name_to_combo(new_r.region_name)
             self.last_save = fname
@@ -535,9 +535,9 @@ class RegionSelector(QMainWindow):
         """
         self.copy_from_below()
 
-    def updateRoi(self, roi: RegionROI):
+    def update_roi(self, roi: RegionROI):
         """
-        Handles the event whenever an ROI is updated on-screen or programmatically
+        Handles the event whenever an ROI is updated programmatically
         :param roi: The roi which got updated
         """
         if roi is None:
@@ -550,6 +550,14 @@ class RegionSelector(QMainWindow):
         self.ui.lblROIName.setText(roi.region_name)
         arr = roi.getArrayRegion(self.stack_image.image, img=self.stack_image)
         self.ui.ROIView.getImageItem().setImage(arr)
+
+    def roi_updated(self, roi: RegionROI):
+        """
+        Handled the event where a given ROI was changed on screen by the user
+        :param roi: The roi which was updated
+        """
+        self.update_roi(roi)
+        self.save_current = False
 
     def regionNameSelChanged(self, index):
         """
@@ -595,4 +603,4 @@ class RegionSelector(QMainWindow):
             stack[i, :, :] = np.array(im)
         im.close()
         return stack
-#Class RegionSelector
+# Class RegionSelector
