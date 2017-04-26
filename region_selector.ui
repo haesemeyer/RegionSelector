@@ -278,7 +278,7 @@
      <property name="geometry">
       <rect>
        <x>5</x>
-       <y>87</y>
+       <y>77</y>
        <width>91</width>
        <height>31</height>
       </rect>
@@ -291,7 +291,7 @@
      <property name="geometry">
       <rect>
        <x>6</x>
-       <y>113</y>
+       <y>107</y>
        <width>125</width>
        <height>31</height>
       </rect>
@@ -304,7 +304,7 @@
      <property name="geometry">
       <rect>
        <x>140</x>
-       <y>114</y>
+       <y>108</y>
        <width>121</width>
        <height>31</height>
       </rect>
@@ -318,7 +318,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>600</y>
+      <y>590</y>
       <width>402</width>
       <height>80</height>
      </rect>
@@ -392,10 +392,10 @@
    <widget class="QSlider" name="dialMax">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>650</y>
+      <x>29</x>
+      <y>656</y>
       <width>124</width>
-      <height>31</height>
+      <height>20</height>
      </rect>
     </property>
     <property name="minimum">
@@ -435,7 +435,7 @@
       <x>29</x>
       <y>605</y>
       <width>122</width>
-      <height>28</height>
+      <height>20</height>
      </rect>
     </property>
     <property name="maximum">
