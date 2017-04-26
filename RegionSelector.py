@@ -53,6 +53,10 @@ class RegionSelector(QMainWindow):
         self.ui.ROIView.ui.menuBtn.hide()
         # to avoid MAC OSX menu snafu make non-native
         self.ui.menubar.setNativeMenuBar(False)
+        # add menubar shortcuts
+        self.ui.actionLoad_regions.setShortcut("Ctrl+L")
+        self.ui.actionOpen_Stack.setShortcut("Ctrl+O")
+        self.ui.actionSave_regions.setShortcut("Ctrl+S")
         # connect signals
         self.ui.actionOpen_Stack.triggered.connect(self.load_click)
         self.ui.btnAddROI.clicked.connect(self.addroi_click)
