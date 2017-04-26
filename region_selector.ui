@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1105</width>
-    <height>738</height>
+    <height>707</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,89 +27,11 @@
    <widget class="ImageView" name="ROIView">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>770</x>
       <y>10</y>
-      <width>411</width>
-      <height>371</height>
+      <width>300</width>
+      <height>300</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnAddROI">
-    <property name="geometry">
-     <rect>
-      <x>355</x>
-      <y>625</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Add ROI</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>659</y>
-      <width>121</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Current ROI name:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lblROIName">
-    <property name="geometry">
-     <rect>
-      <x>133</x>
-      <y>660</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="leNewROI">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>678</y>
-      <width>113</width>
-      <height>22</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>658</y>
-      <width>101</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>New ROI name:</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="cbRegions">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>675</y>
-      <width>151</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Region Names</string>
-    </property>
-    <property name="editable">
-     <bool>false</bool>
     </property>
    </widget>
    <widget class="QSlider" name="sldrZ">
@@ -141,89 +63,37 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnDelROI">
-    <property name="geometry">
-     <rect>
-      <x>12</x>
-      <y>673</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="palette">
-     <palette>
-      <active>
-       <colorrole role="ButtonText">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>255</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </active>
-      <inactive>
-       <colorrole role="ButtonText">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>255</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </inactive>
-      <disabled>
-       <colorrole role="ButtonText">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>106</red>
-          <green>104</green>
-          <blue>100</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </disabled>
-     </palette>
-    </property>
-    <property name="text">
-     <string>Delete ROI</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnCopyROI">
-    <property name="geometry">
-     <rect>
-      <x>511</x>
-      <y>608</y>
-      <width>121</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Copy from prev.</string>
-    </property>
-   </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>684</x>
-      <y>397</y>
-      <width>403</width>
-      <height>123</height>
+      <x>660</x>
+      <y>313</y>
+      <width>436</width>
+      <height>206</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
     <property name="title">
-     <string>Region file handling</string>
+     <string>Region commands</string>
     </property>
     <widget class="QLabel" name="lblSaveName">
      <property name="geometry">
       <rect>
        <x>8</x>
-       <y>28</y>
-       <width>250</width>
+       <y>183</y>
+       <width>304</width>
        <height>16</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <italic>true</italic>
+      </font>
      </property>
      <property name="text">
       <string>TextLabel</string>
@@ -232,35 +102,223 @@
     <widget class="QLabel" name="lblIsSaved">
      <property name="geometry">
       <rect>
-       <x>280</x>
-       <y>25</y>
+       <x>320</x>
+       <y>180</y>
        <width>111</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <italic>true</italic>
+      </font>
      </property>
      <property name="text">
       <string>Changes saved</string>
      </property>
     </widget>
-   </widget>
-   <widget class="QPushButton" name="btnCopyROInext">
-    <property name="geometry">
-     <rect>
-      <x>510</x>
-      <y>638</y>
-      <width>121</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Copy from next</string>
-    </property>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>24</y>
+       <width>121</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Current ROI name:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblROIName">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>25</y>
+       <width>288</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="Line" name="line">
+     <property name="geometry">
+      <rect>
+       <x>6</x>
+       <y>170</y>
+       <width>423</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnDelROI">
+     <property name="geometry">
+      <rect>
+       <x>6</x>
+       <y>143</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="ButtonText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="ButtonText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="ButtonText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>106</red>
+           <green>104</green>
+           <blue>100</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <property name="text">
+      <string>Delete ROI</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leNewROI">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>51</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="cbRegions">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>48</y>
+       <width>151</width>
+       <height>26</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>Region Names</string>
+     </property>
+     <property name="editable">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>7</x>
+       <y>55</y>
+       <width>101</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>New ROI name:</string>
+     </property>
+    </widget>
+    <widget class="Line" name="line_2">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>40</y>
+       <width>423</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnAddROI">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>87</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Add ROI</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnCopyROI">
+     <property name="geometry">
+      <rect>
+       <x>6</x>
+       <y>113</y>
+       <width>125</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Copy from prev.</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnCopyROInext">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>114</y>
+       <width>121</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Copy from next</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>684</x>
-      <y>540</y>
+      <x>200</x>
+      <y>600</y>
       <width>402</width>
       <height>80</height>
      </rect>
@@ -308,24 +366,11 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>591</y>
-      <width>68</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Minimum</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>591</y>
+      <x>30</x>
+      <y>636</y>
       <width>73</width>
       <height>16</height>
      </rect>
@@ -334,29 +379,13 @@
      <string>Maximum</string>
     </property>
    </widget>
-   <widget class="QSlider" name="dialMin">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>610</y>
-      <width>22</width>
-      <height>90</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>255</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
    <widget class="QSlider" name="dialMax">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>610</y>
-      <width>22</width>
-      <height>90</height>
+      <x>30</x>
+      <y>650</y>
+      <width>124</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="minimum">
@@ -369,9 +398,49 @@
      <number>255</number>
     </property>
     <property name="orientation">
-     <enum>Qt::Vertical</enum>
+     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>590</y>
+      <width>68</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Minimum</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="dialMin">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>600</y>
+      <width>122</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>255</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <zorder>stackBox</zorder>
+   <zorder>ROIView</zorder>
+   <zorder>sldrZ</zorder>
+   <zorder>lbl_z</zorder>
+   <zorder>groupBox</zorder>
+   <zorder>groupBox_2</zorder>
+   <zorder>label_7</zorder>
+   <zorder>dialMax</zorder>
+   <zorder>label_6</zorder>
+   <zorder>dialMin</zorder>
+   <zorder>label_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
