@@ -43,4 +43,6 @@ PyQt5
 
 Pyqtgraph
 
+h5py
+
 Tested on Windows and OsX with python 3.5 and 3.6
