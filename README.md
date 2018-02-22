@@ -1,8 +1,10 @@
 # RegionSelector
 Program for selecting brain regions in stacks and saving their descriptors to file written in python using qt5.
 
-The program allows loading 8-bit grayscale and RGB(A) stacks (currently only tiff-stacks are supported). Regions can be named and selected
+The program allows loading 8, 16 and 32-bit grayscale and RGB(A) stacks (currently only tiff-stacks are supported). Regions can be named and selected
 in indivdual slices of the stack. To aid in segmenting, regions can be copied between consecutive slices.
+
+The program allows adjusting the scaling and offset of the visualized images for easier visualization of underlying structure.
 
 ## Region files
 All segmentations can be saved from the user interface to hdf5 files. Saving/loading of regions outside of the RegionSelector program is
